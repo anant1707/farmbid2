@@ -1,0 +1,154 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">CROP DETAILS</h2>
+                </div>
+
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    
+                <div class="media"><img class="mr-3" height="150" width="150" border-radius="50%" src="static/media/cropimg/{{crop[0]}}">
+                
+
+                    <div class="media-body">
+                        <br>
+                        <br>
+
+                        <h2> &nbsp; &nbsp; &nbsp;{{crop[1]}}</h2>
+                    </div>
+</div>
+            <br><br>
+                    <div class="table responsive">                                                                                                                                                                                                                                         
+                <table>
+                    <tr>
+                      <td><b>
+                        Description
+                      </b>
+                      </td>
+                      <td>
+                        {{crop[4]}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>
+                        End-Date
+                      </b>
+                      </td>
+                      <td>
+                        {{crop[5]}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>
+                        State
+                      </b>
+                      </td>
+                      
+                      <td>
+                        {{crop[6]}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>
+                        Base Price
+                      </b>
+                      </td>
+                      <td>
+                        {{crop[2]}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>
+                        SELLER
+                      </b>
+                      </td>
+                      <td>
+                          <a href="{{url_for('viewprofile',p=user)}}">{{seller}}</a>
+                      </td>
+                    </tr>
+
+                </table>
+
+            </div>
+{% if noti %}
+<button class="btn btn-primary" style="width:100%" data-toggle="modal" data-target="#myModal"> ADD BID </button>
+      {% endif %}
+            </div>
+<div>
+                <script type="text/javascript">
+                function confirmation()
+                {
+                  var a=confirm("Are you sure you dont want to add your bid?")
+                  return a;
+
+                }
+
+
+              </script>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">ADD YOUR BID HERE</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form method="POST" action="{{url_for('viewcrop',a=crop[0])}}" enctype="multipart/form-data">
+    <br>
+                {{ form.csrf_token }}
+                    {% for field in form%}
+                    <div class="form-group">
+                        {%if field.type=="SubmitField"%}
+                        {{field(class_="btn btn-primary btn-block")}}
+                        {%else%}
+                        {%if field.label.text!="CSRF Token"%}
+                        {{field.label}} {{field(class_="form-control")}}
+                        {%endif%}
+                        {%endif%}
+                    </div>
+                    {%endfor%}
+                 </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+            </div>
+</section>
+
+
+                    
+    </main>
+   {%endblock content%}
+

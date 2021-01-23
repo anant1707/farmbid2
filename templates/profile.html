@@ -1,0 +1,68 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+
+
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                <div class="block-heading">
+                    <h2 class="text-info">PROFILE</h2>
+                </div>
+                <a href="/updateimg">
+                <div class="media"><img class="mr-3" height="150" width="150" border-radius="50%" src="static/img/download.png" >
+                </a>
+
+                    <div class="media-body">
+                        <br>
+                        <br>
+
+                        <h2> &nbsp; &nbsp; &nbsp;Test User </h2>
+                    </div>
+                </div>
+            <br><br>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+
+
+	<tr>
+	                          <th>Email</th>
+<th>{{session['trueemail']}}</th>
+                                    
+</tr>
+<tr>
+                                  <th>Phone Number</th>
+<th>978XXXXX442</th>
+                                  
+				
+</tr>
+                            </thead>
+                        </table>
+
+            </div>
+
+                 
+</div>
+                    </div>
+        </section>
+    </main>
+   {%endblock content%}
+

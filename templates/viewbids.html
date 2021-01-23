@@ -1,0 +1,102 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        <section class="clean-block clean-form dark">
+            {%for b in y%}
+            <div class="container">
+                <div class="block-heading">
+                                <h2 style="text-align:center;" >RESULTS</h2>
+                </div>
+                <h2>CROP:{{b[1]}}</h2>
+                {%if b | length > 0%}
+                <div class="table responsive">
+
+                <table>
+                    <th>
+                        BUYER ID
+                    </th>
+                    <th>
+                        Bidding Ends On
+                    </th>
+                    <th>
+                        Base Price
+                    </th>
+                    <th>
+                        PROPOSED PRICE
+                    </th>
+                    <th>
+                        REQUIRED QUANTITY
+                    </th>
+                    <th>
+                   B- STATE
+                    </th>
+                    <th>
+                        DATED
+                    </th>
+                    <th>
+                        ACCEPT
+                    </th>
+                    <th>
+                        DECLINE
+                    </th>
+                    <tr>
+                        <td><a href="{{url_for('viewprofile',p=b[4])}}">{{b[4]}}</a>
+                        </td>
+                        <td>{{b[3]}}
+                        </td>
+                        <td>{{b[2]}}
+                        </td>
+                        <td>{{b[5]}}
+                        </td>
+                        <td>
+                            {{b[6]}}
+                        </td>
+                        <td>
+                            {{b[9]}}
+                        </td>
+                        <td>
+                            {{b[7]}}
+                        </td>
+                        <td><a href="{{url_for('acceptbid',a=b[8])}}"><button class="btn btn-primary btn-sm">ACCEPT</button></a>
+                        </td>
+                        <td><a href="{{url_for('declinebid',a=b[8])}}"><button class="btn btn-danger btn-sm">DECLINE</button></a>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+            {%endif%}
+
+    </div>
+            {%endfor%}
+  </section>
+
+                 <script type="text/javascript">
+                function confirmation()
+                {
+                  var a=confirm("Are you sure you want to update ?")
+                  return a;
+
+                }
+              </script>
+{% endblock content %}
+

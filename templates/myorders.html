@@ -1,0 +1,168 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        <section class="clean-block clean-form dark">
+
+            <div class="container">
+
+                <div class="block-heading">
+                                <h2 style="text-align:center;" >RESULTS</h2>
+                </div>
+
+                {%if y | length > 0%}
+                {%for b in y%}
+                                 <br>
+    <br>
+                <button type="button" class="btn btn-info" style="width:100%" data-toggle="collapse" data-target="#a{{b[0][0]}}">{{b[0][1]}}</button>
+<div id="a{{b[0][0]}}" class="collapse">
+                <div class="table responsive">
+                <table>
+                    <th>
+                        BUYER ID
+                    </th>
+
+                    <th>
+                        Base Price
+                    </th>
+                    <th>
+                        PROPOSED PRICE
+                    </th>
+                    <th>
+                        REQUIRED QUANTITY
+                    </th>
+                    <th>
+                       B-STATE
+                    </th>
+                    <th>
+                        DATED
+                    </th>
+                    <th>
+                        PAYMENT STATUS
+                    </th>
+                    {% for crop in b %}
+                    <tr>
+                        <td><a href="{{url_for('viewprofile',p=crop[4])}}"> {{crop[4]}}</a>
+                        </td>
+                        <td>{{crop[2]}}
+                        </td>
+                        <td>{{crop[5]}}
+                        </td>
+                        <td>
+                            {{crop[6]}}
+                        </td>
+                        </td>
+                        <td>
+                            {{crop[9]}}
+                        </td>
+                        <td>
+                            {{crop[7]}}
+                        </td>
+                        {% if crop[10]==0%}
+                        <td><button class="btn ">PENDING</button><br>
+                           <a href="{{url_for('declinebid',a=crop[8])}}"> <button class="btn btn-danger btn-sm">DECLINE THIS BID</button></a>
+
+                        </td>
+                        {% else %}
+                        <td><button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#myModal{{crop[8]}}">SUCCESS</button>
+                         <td>
+                        {% if crop[12]==0 %}
+                        <a href="{{url_for('acceptpayment',a=crop[8])}}"> <button class="btn btn-primary btn-sm">CONFIRM PAYMENT</button></a>
+                        </td>
+                        {% else %}
+                          <a href="{{url_for('static',filename='invoice/%s.docx'%(crop[8]))}}"> <button class="btn btn-primary btn-sm">VIEW INVOICE</button></a>
+                        </td>
+                        {% endif %}
+                        {% endif %}
+
+
+
+
+
+                        <!-- The Modal -->
+  <div class="modal fade" id="myModal{{crop[8]}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">PAYMENT NO.</h4>
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <h2>{{ crop[11]}}</h2>
+            <h5 style="color:red;">Special Instructions: {{ crop[13]}}</h5>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+</div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+                {% endfor %}
+            {%endif%}
+
+    </div>
+
+
+
+
+
+
+
+  </section>
+
+                 <script type="text/javascript">
+                function confirmation()
+                {
+                  var a=confirm("Are you sure you want to update ?")
+                  return a;
+
+                }
+              </script>
+
+        {% endblock content %}

@@ -1,0 +1,418 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+                </div>
+
+            </div>
+<br>
+
+
+        <section class="clean-block clean-form dark">
+
+            <div class="container">
+
+
+                                 <br>
+                <br>
+                <div id="pastbids">
+                    <div class="accordion-group">
+                <button type="button" class="btn btn-success" style="width:100%" data-toggle="collapse" data-target="#ACTIVE" aria-expanded="false" aria-controls="ACTIVE" >ACTIVE BIDS</button>
+<div id="ACTIVE" class="collapse" data-parent="#pastbids">
+    {%if activebids | length > 0%}
+                <div class="table responsive">
+                <table>
+                     <th>
+                        CROP
+                    </th>
+                    <th>
+                        SELLER ID
+                    </th>
+                    <th>
+                        DATE
+                    </th>
+
+                    <th>
+                        CURRENT BID
+                    </th>
+
+                    <th>
+                        QUANTITY
+                    </th>
+                    <th>
+                        VIEW CROP
+                    </th>
+                    <th>
+                       STATUS
+                    </th>
+                    <th>
+                       payment-STATUS
+                    </th>
+                    <th>
+                       PMT-ACCEPT STATUS
+                    </th>
+
+                    {% for crop in activebids %}
+                    <tr>
+                        <td>{{crop[12]}}
+                        </td>
+                        <td><a href="{{url_for('viewprofile',p=crop[5])}}"> {{crop[5]}}</a>
+                        </td>
+                        <td>{{crop[3]}}
+                        </td>
+
+                        <td>{{crop[1]}}
+                        </td>
+                        <td>{{crop[2]}}
+                        </td>
+                        <td>
+                            <a href="{{url_for('viewcrop',a=crop[4],not=1)}}"><button class="btn btn-primary btn-sm">VIEW CROP</button></a>
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm">ACCEPTED</button>
+                        </td>
+
+                        {% if crop[10]==0 %}
+                        <td>
+                            <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#myModal{{crop[0]}}">PENDING</button>
+                           <a href="{{url_for('deletemycrop',a=crop[0])}}"> <button class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#myModal">DELETE BID</button></a>
+
+                        </td>
+
+
+                        {% elif crop[10]==1 %}
+                        <td>
+                            <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#myModal2{{crop[0]}}">MADE</button>
+                        </td>
+                        {% if crop[14]==0 %}
+                        <td>
+                            <button class="btn btn-danger btn-sm">PENDING</button>
+                        </td>
+                        {% else%}
+                        <td>
+                            <button class="btn btn-success btn-sm">CONFIRMED</button>
+
+                        </td>
+                        <td>
+                         <a href="{{url_for('static',filename='invoice/%s.docx'%(crop[0]))}}"> <button class="btn btn-primary btn-sm">VIEW INVOICE</button></a>
+                        </td>
+                        {% endif%}
+
+                        {% endif %}
+
+
+                    </tr>
+
+
+
+
+
+                        <!-- The Modal -->
+  <div class="modal fade" id="myModal{{crop[0]}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">PAYMNET DETAILS OF FARMER</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method="POST" action="{{url_for('makepayment',bidd=crop[0])}}" >
+                    {{ form.csrf_token }}
+                    {% for field in form%}
+                    <div class="form-group">
+                        {%if field.type=="SubmitField"%}
+                        {{field(class_="btn btn-primary btn-block")}}
+                        {%else%}
+                        {%if field.label.text!="CSRF Token"%}
+                        {{field.label}} {{field(class_="form-control")}}
+                        {%endif%}
+                        {%endif%}
+                    </div>
+                    {%endfor%}
+                </form>
+            <h5>ACCOUNT NO: {{ crop[7]}}</h5>
+            <h5>IFSC CODE: {{ crop[8]}}</h5>
+            <h5>ACCOUNT HOLDER NAME: {{ crop[6]}}</h5>
+            <h5>TRANSPORT NO: {{ crop[9]}}</h5>
+            <h5>TRANSPORT COST: {{ crop[15]}}</h5>
+            <br>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- The Modal -->
+  <div class="modal fade" id="myModal2{{crop[0]}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">PAYMENT NO></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <h5>PAYMENT NO: {{ crop[11]}}</h5>
+
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+                    {% endfor %}
+                </table>
+            </div>
+</div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+                </div>
+
+            {%endif%}
+
+
+
+
+                                 <br>
+                <br>
+                <button type="button" class="btn btn-danger" style="width:100%" data-toggle="collapse" data-target="#DECLINED"  aria-expanded="false" aria-controls="DECLINDE" >DECLINED BIDS</button>
+<div class="collapse" id="DECLINED" data-parent="#pastbids">
+    {%if declinedbids | length > 0%}
+                <div class="table responsive">
+                <table>
+                     <th>
+                        CROP NAME
+                    </th>
+                    <th>
+                        SELLER ID
+                    </th>
+                    <th>
+                        CURRENT BID
+                    </th>
+                    <th>
+                        DATE
+                    </th>
+                    <th>
+                        QUANTITY
+                    </th>
+                    <th>
+                        VIEW CROP
+                    </th>
+                    <th>
+                        ACCEPT STATUS
+                    </th>
+                    <th>
+                        ACTION
+                    </th>
+                    {% for crop in declinedbids %}
+                    <tr>
+                         <td>{{crop[6]}}
+                        </td>
+                        <td><a href="{{url_for('viewprofile',p=crop[5])}}"> {{crop[5]}}</a>
+                        </td>
+                        <td>{{crop[3]}}
+                        </td>
+                        <td>{{crop[1]}}
+                        </td>
+                        <td>{{crop[2]}}
+                        </td>
+                          <td>
+                            <a href="{{url_for('viewcrop',a=crop[4])}}"><button class="btn btn-primary btn-sm">VIEW CROP</button></a>
+                        </td>
+                         <td>
+                            <button class="btn btn-danger btn-sm">DECLINED</button>
+                        </td>
+                         <td>
+                            <a href="{{url_for('deletemycrop',a=crop[0])}}"><button class="btn btn-danger btn-sm">DELETE BID</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+</div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+            </div>
+
+            {%endif%}
+
+
+                                 <br>
+                <br>
+                 <button type="button" class="btn btn-primary" style="width:100%" data-toggle="collapse" data-target="#PAST" aria-expanded="false" aria-controls="PAST" >PENDING BIDS</button>
+<div class="collapse" id="PAST" data-parent="#pastbids">
+    {%if pendingbids | length > 0%}
+                <div class="table responsive">
+                <table>
+                     <th>
+                        CROP NAME
+                    </th>
+                    <th>
+                        SELLER ID
+                    </th>
+                    <th>
+                        CURRENT BID
+                    </th>
+                    <th>
+                        DATE
+                    </th>
+                    <th>
+                        QUANTITY
+                    </th>
+                    <th>
+                        VIEW CROP
+                    </th>
+                    <th>
+                        ACCEPT-STATUS
+                    </th>
+                    <th>
+                        ACTION
+                    </th>
+                    {% for crop in pendingbids %}
+                    <tr>
+                         <td>{{crop[6]}}
+                        </td>
+                        <td><a href="{{url_for('viewprofile',p=crop[5])}}"> {{crop[5]}}</a>
+                        </td>
+                        <td>{{crop[3]}}
+                        </td>
+                        <td>{{crop[1]}}
+                        </td>
+                        <td>{{crop[2]}}
+                        </td>
+                          <td>
+                            <a href="{{url_for('viewcrop',a=crop[4])}}"><button class="btn btn-primary btn-sm">VIEW CROP</button></a>
+                        </td>
+                        <td>
+                           <button class="btn btn-danger btn-sm">PENDING</button>
+                        </td>
+                        <td>
+                            <a href="{{url_for('deletemycrop',a=crop[0])}}"><button class="btn btn-danger btn-sm">DELETE BID</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+</div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+        </div>
+            {%endif%}
+
+
+
+                                 <br>
+                <br>
+                <button type="button" class="btn btn-info" style="width:100%" data-toggle="collapse" data-target="#PENDING" aria-expanded="false" aria-controls="PENDING" >PAST BIDS</button>
+<div class="collapse" id="PENDING" data-parent="#pastbids">
+    {%if pastbids | length > 0%}
+                <div class="table responsive">
+                <table>
+                    <th>
+                        SELLER ID
+                    </th>
+                    <th>
+                        CURRENT BID
+                    </th>
+                    <th>
+                        DATE
+                    </th>
+                    <th>
+                        QUNATITY
+                    </th>
+
+                    {% for crop in pastbids %}
+                    <tr>
+                        <td><a href="{{url_for('viewprofile',p=crop[5])}}"> {{crop[5]}}</a>
+                        </td>
+                        <td>{{crop[3]}}
+                        </td>
+                        <td>{{crop[1]}}
+                        </td>
+                        <td>{{crop[2]}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+</div>
+            {%else%}
+            <div class="block-heading">
+                    <h2 >NO ITEMS TO SHOW</h2>
+                </div>
+        </div>
+            {%endif%}
+
+            </div>
+            </div>
+  </section>
+
+                 <script type="text/javascript">
+                function confirmation()
+                {
+                  var a=confirm("Are you sure you want to update ?")
+                  return a;
+
+                }
+              </script>
+{% endblock content%}
+
+
+

@@ -1,0 +1,83 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page login-page">
+         {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for c,m in messages %}
+            <div class="alert alert-{{c}}" role="alert">
+               <a href="#" class="close" data-dismiss='alert' aria-label="close">&times;</a>
+                {{m}}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">PROFILE</h2>
+                </div>
+
+
+                    <div class="row">
+                        <div class="col-md-2"><div class="col-md-2"><img class="mr-3" height="150" width="150" border-radius="50%" src="static/media/cropimg/{{id}}"></div>
+</div>
+                        <div class="col-md-8">
+                            <table class="table responsive">
+                                <tr>
+                                    <td>
+                                        Crop:
+                                    </td>
+                                    <td>
+                                        {{crop}}
+                                    </td>
+                                </tr>
+                                    <tr>
+                                        <td>
+                                        Base Price:
+                                    </td>
+                                    <td>
+                                        {{value}}
+                                    </td>
+                                    </tr>
+                                <tr>
+                                    <td>
+                                        Quantity:
+                                    </td>
+                                    <td>
+                                        {{quantity}}
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+            <br><br>
+
+                 <script type="text/javascript">
+                function confirmation()
+                {
+                  var a=confirm("Are you sure you want to delete your crop from list?")
+                  return a;
+
+                }
+
+
+              </script>
+
+            <p style="text-align:center;">
+  <a href="{{url_for('fhome')}}" ><button class="btn btn-primary">&nbsp;&nbsp; HOME &nbsp;&nbsp;   </button></a>
+  <a href="{{url_for('deletecrop',a=id)}}" onclick="return confirmation();"><button class="btn btn-danger">DELETE CROP</button></a>
+
+</p>
+
+            </div>
+        </section>
+    </main>
+   {%endblock content%}
+
