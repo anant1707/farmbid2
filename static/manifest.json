@@ -1,0 +1,22 @@
+{
+	"name":"Farmbid-PWA",
+	"short_name":"Farmbid-PWA",
+	"start_url":"/",
+	"background_color":"#050e29",
+	"theme_color":"#050e29",
+	"display":"standalone",
+	"icons": [
+		{
+			"src":"img/icon-small.png",
+			"sizes":"192x192",
+			"type":"static/image/png",
+			"purpose":"any maskable"
+		},
+		{
+			"src":"img/icon-large.png",
+			"sizes":"512x512",
+			"type":"image/png"
+		}
+
+			]
+}

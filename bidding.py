@@ -1,6 +1,6 @@
 from builtins import str
 #import generate
-from flask import Flask,render_template,request,redirect,url_for,flash,session
+from flask import Flask,render_template,request,redirect,url_for,flash,session,make_response,send_from_directory
 #import psycopg2 as psql
 #import mail
 #import pandas as pd
@@ -29,6 +29,13 @@ app.config['UPLOAD_FOLDER']=PEOPLE_FOLDER
 app.config['CROP_IMG']=CROP_FOLDER
 
 
+@app.route('/sw.js')
+def sw():
+    response=make_response(
+                     send_from_directory('static',filename='sw.js'))
+    #change the content header file
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
 
 @app.route('/')
 def home():
