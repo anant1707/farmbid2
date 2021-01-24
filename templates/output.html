@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+    <main class="page landing-page">
+
+    <textarea id="txtarea" cols="50" rows="30" placeholder="The converted text will be written here!" style="  border: 2px outset black; margin: 0px; resize: none; font-size: 18px;font-family: Times new Roman;" >{{output}}</textarea>
+
+    </main>
+    <script>
+       const txtarea= document.getElementById('txtarea')
+       txtarea.style.setProperty('width',`${window.innerWidth-15}px`,'');
+       txtarea.style.setProperty('height',`${window.innerHeight/1.2}px`,'');
+       
+
+    </script>
+{%endblock content%}

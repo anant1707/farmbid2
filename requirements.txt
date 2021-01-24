@@ -1,4 +1,5 @@
 flask
+pyodbc
 flask_wtf
 passlib
 email_validator

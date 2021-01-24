@@ -1,9 +1,9 @@
 {
-	"name":"Farmbid-PWA",
-	"short_name":"Farmbid-PWA",
+	"name":"WhiteBoard",
+	"short_name":"WhiteBoard",
 	"start_url":"/",
-	"background_color":"#050e29",
-	"theme_color":"#050e29",
+	"background_color":"#ffffff",
+	"theme_color":"#ffffff",
 	"display":"standalone",
 	"icons": [
 		{

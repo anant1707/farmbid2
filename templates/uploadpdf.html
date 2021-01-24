@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{%block title%}
+<title>{{title}}</title>
+{%endblock title%}
+{%block content%}
+<main class="page login-page">
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Upload File</h2>
+                   
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="pdfile">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit" name="pdfile" >Upload</button>
+                    </div>
+                    
+                    <br>
+                </form>
+
+            </div>
+
+        </section>
+    </main>
+{%endblock content%}
