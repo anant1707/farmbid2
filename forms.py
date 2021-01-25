@@ -23,8 +23,12 @@ class LoginForm(Form):
 class EmptyForm(Form):
    a=6
 
+class NotificationForm(Form):
+   notification = StringField("Enter the notification you want to post:", validators=[InputRequired()])
+   submit = SubmitField("Request Otp")
+
 class ForgotForm(Form):
-   phone = StringField("Enter Registered Phone Number", validators=[InputRequired()])
+   phone = StringField("Enter your phone number:", validators=[InputRequired()])
    submit = SubmitField("Request Otp")
 
 

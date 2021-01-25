@@ -1,7 +1,7 @@
 from builtins import str
 from flask import Flask,render_template,request,redirect,url_for,flash,session,jsonify,make_response,send_from_directory
 import pyodbc
-from forms import ResetForm,RegistrationForm,LoginForm,EmptyForm,ForgotForm,NewPassForm,ChangePassword
+from forms import ResetForm,RegistrationForm,LoginForm,EmptyForm,ForgotForm,NewPassForm,ChangePassword,NotificationForm
 import os
 from flask_wtf.file import FileField,FileAllowed
 from passlib.hash import pbkdf2_sha256
@@ -47,6 +47,15 @@ def home():
 		return redirect(url_for('userhome'))
 	else:
 		return render_template('index.html',form=form)
+
+@app.route('/admin',methods=['GET','POST'])
+def admin():
+    form=NotificationForm()
+    if request.method=='POST':
+        if form.is_submitted():
+            nf=form.data['notification']
+            return render_template('help.html',nf=f"{nf}")
+    return render_template('admin.html',form=form)
 
 @app.route('/userhome')
 def userhome():
@@ -185,6 +194,9 @@ def login():
     if(request.method == 'POST'):
         cursor=cnxn.cursor()
         result=form.data
+
+        if(result['email']=="admin" and result['password']=="1234"):
+            return redirect(url_for('admin'))
         cursor.execute(f"Select passwordd from userinfo where lower(email)='{result['email'].lower()}'")
         a=cursor.fetchone()
         if a is None:
@@ -253,10 +265,7 @@ def resetpass():
     print(otp1)
     #URL = 'https://www.way2sms.com/api/v1/sendCampaign'
     session['otp']=otp1
-    phone=session['phone']
-    cursor.execute(f"select email from userinfo where phone = {session['phone']}")
-    emaail=cursor.fetchone()[0]
-    mail.sendmail(receiver=f"{emaail}", subject="One Time Password for your account registration",body=f"Your OTP for email verification is:{otp1}",file='')
+    mail.sendmail(receiver=f"{session['email']}", subject="One Time Password for your account registration",body=f"Your OTP for email verification is:{otp1}",file='')
 
     return render_template('verifyotp.html',form=form)
 

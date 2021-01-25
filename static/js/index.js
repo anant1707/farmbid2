@@ -15,7 +15,7 @@ if("serviceWorker" in navigator)
 
 });
 
-	function displayNotification() {
+	function displayNotification(message) {
   if (Notification.permission == 'granted') {
     navigator.serviceWorker.getRegistration().then(function(reg) {
       var options = {
@@ -25,12 +25,10 @@ if("serviceWorker" in navigator)
           primaryKey: 1
         }
       };
-      reg.showNotification('Hello world!', options);
+      reg.showNotification(`${message}`, options);
     });
   }
 }
-
-displayNotification();
 
 
 }
