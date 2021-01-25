@@ -242,9 +242,6 @@ def resetpass():
 
                 return redirect(url_for('login'))
 
-
-
-
             return redirect(url_for('newpass'))
         else:
 
@@ -257,10 +254,9 @@ def resetpass():
     #URL = 'https://www.way2sms.com/api/v1/sendCampaign'
     session['otp']=otp1
     phone=session['phone']
-
-    mail.sendmail(receiver=f"{session['email']}", subject="One Time Password for your account registration",
-                  body=f"Your OTP for email verification is:{otp1}",
-                  file='')
+    cursor.execute(f"select email from userinfo where phone = {session['phone']}")
+    emaail=cursor.fetchone()[0]
+    mail.sendmail(receiver=f"{emaail}", subject="One Time Password for your account registration",body=f"Your OTP for email verification is:{otp1}",file='')
 
     return render_template('verifyotp.html',form=form)
 
@@ -316,4 +312,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(host='192.168.0.101', port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
