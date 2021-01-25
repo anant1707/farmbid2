@@ -25,7 +25,7 @@ class EmptyForm(Form):
 
 class NotificationForm(Form):
    notification = StringField("Enter the notification you want to post:", validators=[InputRequired()])
-   submit = SubmitField("Request Otp")
+   submit = SubmitField("Send")
 
 class ForgotForm(Form):
    phone = StringField("Enter your phone number:", validators=[InputRequired()])
