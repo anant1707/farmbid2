@@ -16,7 +16,7 @@ app = Flask(__name__)
 #=============================================================================
 #MYSQL CONFIGURATION
 app.config['SECRET_KEY'] = 'AjJ0lXaX5K9tai8QsUhwwQ'
-server = 'anant7.database.windows.net'
+server = 'anant.database.windows.net'
 database = 'hwr'
 username = 'root7'
 password = 'Anant@1707'
