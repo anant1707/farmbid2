@@ -48,13 +48,14 @@ def home():
 	else:
 		return render_template('index.html',form=form)
 
-@app.route('/about')
-def about():
+@app.route('/1')
+def one():
     form=EmptyForm()
     if(session.get('logged-in')):
         return redirect(url_for('userhome'))
     else:
-        return render_template('index.html',form=form)
+        return render_template('one.html',form=form)
+
 
 @app.route('/admin',methods=['GET','POST'])
 def admin():
