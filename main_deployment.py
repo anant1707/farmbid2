@@ -56,6 +56,14 @@ def one():
     else:
         return render_template('one.html',form=form)
 
+@app.route('/testpage')
+def two():
+    form=EmptyForm()
+    if(session.get('logged-in')):
+        return redirect(url_for('userhome'))
+    else:
+        return render_template('one.html',form=form)
+
 
 @app.route('/admin',methods=['GET','POST'])
 def admin():
